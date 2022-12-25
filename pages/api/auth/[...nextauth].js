@@ -10,13 +10,11 @@ export default NextAuth({
   },
   callbacks: {
     async jwt({ token, user }) {
-      console.log('inside jwt function');
       if (user?._id) token._id = user._id;
       if (user?.isAdmin) token.isAdmin = user.isAdmin;
       return token;
     },
     async session({ session, token }) {
-      console.log('inside session function');
       if (token?._id) session.user._id = token._id;
       if (token?.isAdmin) session.user.isAdmin = token.isAdmin;
       return session;
@@ -25,9 +23,8 @@ export default NextAuth({
   providers: [
     CredentialsProvider({
       async authorize(credentials) {
-        console.log('inside authorize function');
         await db.connect();
-        const user = User.findOne({
+        const user = await User.findOne({
           email: credentials.email,
         });
         await db.disconnect();
