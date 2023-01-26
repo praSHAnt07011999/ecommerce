@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+// require('dotenv').config()
 
 const connection = {};
 
@@ -15,7 +16,7 @@ async function connect() {
     }
     await mongoose.disconnect();
   }
-  const db = await mongoose.connect(process.env.REACT_APP_MONGODB_URI);
+  const db = await mongoose.connect(process.env.MONGODB_URI);
   console.log('New Connection');
   connection.isConnected = db.connections[0].readyState;
 }
